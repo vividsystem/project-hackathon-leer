@@ -14,9 +14,15 @@
     "solid-devtools": "^0.34.3",
     "typescript": "^5.7.2",
     "vite": "^7.1.4",
-    "vite-plugin-solid": "^2.11.8"
+    "vite-plugin-solid": "^2.11.8",
+    "@types/bun": "latest"
   },
   "dependencies": {
-    "solid-js": "^1.9.5"
-  }
+    "@picocss/pico": "^2.1.1",
+    "@solidjs/router": "^0.15.3",
+    "solid-js": "^1.9.5",
+    "vite-template-solid": "."
+  },
+  "module": "src/index.tsx",
+  "private": true
 }
