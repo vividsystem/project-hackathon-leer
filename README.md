@@ -1,29 +1,32 @@
-# Submission for the 2025 Hackathon Leer
-## Contributing
+# SolidStart
 
-MAKE A SEPERATE BRANCH WHEN WORKING ON A FEATURE PLEASE
-AND BEFORE STARTING ANYTHING MAKE SURE YOU ARE UP TO DATE WITH UPSTREAM
-ALSO PLEASE DONT USE REBASE MERGES BUT NORMAL ONES
+Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
 
-## Available Scripts
+## Creating a project
 
-In the project directory, you can run:
+```bash
+# create a new project in the current directory
+npm init solid@latest
 
-### `bun run dev` or `bun start`
+# create a new project in my-app
+npm init solid@latest my-app
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Developing
 
-The page will reload if you make edits.<br>
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-### `bun run build`
+```bash
+npm run dev
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Building
 
-## Deployment
+Solid apps are built with _presets_, which optimise your project for deployment to different environments.
 
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+By default, `npm run build` will generate a Node app that you can run with `npm start`. To use a different preset, add it to the `devDependencies` in `package.json` and specify in your `app.config.js`.
+
+## This project was created with the [Solid CLI](https://github.com/solidjs-community/solid-cli)
