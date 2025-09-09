@@ -1,5 +1,5 @@
 node_modules
-dist
-.env
 .vinxi
 .output
+bun.lock
+.git
