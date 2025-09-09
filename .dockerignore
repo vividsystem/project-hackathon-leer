@@ -2,3 +2,4 @@ node_modules
 .vinxi
 .output
 bun.lock
+.git
