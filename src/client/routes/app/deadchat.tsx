@@ -1,5 +1,6 @@
-import { createSignal, For, Show, JSX, Component } from "solid-js";
+import { createSignal, For, Show, JSX, Component, useContext } from "solid-js";
 import "@picocss/pico/css/pico.min.css";
+import { ChatContext } from "~/client/lib/contexts";
 
 type Message = {
   id: number;
@@ -15,6 +16,21 @@ const Chat: Component = () => {
 
   let lastId = 0;
   const nextId = () => ++lastId;
+	
+	const client = useContext(ChatContext)
+	client.onMessage((message) => {
+		setMessages((prev) => [
+			...prev,
+			{
+				id: nextId(),
+				sender: message.sender,
+				text: message.message,
+				sentByUser: true,
+				timestamp: new Date()
+			}
+		])
+	})
+
 
   const addMessage = (text: string, sentByUser: boolean, sender: string) => {
     setMessages((prev) => [
@@ -39,6 +55,7 @@ const Chat: Component = () => {
     const txt = input().trim();
     if (!txt) return;
     addMessage(txt, true, "Me");
+		client.sendMessage(txt)
     setInput("");
     simulateReply();
   };

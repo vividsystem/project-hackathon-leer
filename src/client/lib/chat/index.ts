@@ -54,8 +54,8 @@ export class ChatClient {
     });
   }
 
-  sendMessage(code: string, message: string): void {
-    this.socket.emit("send-message", { code, message });
+  sendMessage(message: string): void {
+    this.socket.emit("send-message", message);
   }
 
   onMessage(handler: MessageHandler): void {
