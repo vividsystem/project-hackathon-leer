@@ -5,7 +5,8 @@
     "client:dev": "vinxi dev",
     "client:build": "vinxi build",
     "client:start": "vinxi start",
-    "client:version": "vinxi version"
+    "client:version": "vinxi version",
+		"server:dev": "ts-node-dev --respawn --transpile-only ./src/server/server.ts"
   },
   "dependencies": {
     "@picocss/pico": "^2.1.1",
