@@ -1,4 +1,11 @@
-import { createSignal, For, Show, JSX, Component } from "solid-js";
+import {
+  createSignal,
+  createEffect,
+  For,
+  Show,
+  JSX,
+  Component,
+} from "solid-js";
 import "@picocss/pico/css/pico.min.css";
 
 type Message = {
@@ -50,17 +57,17 @@ const Chat: Component = () => {
     }
   };
 
-  let scrollContainer!: HTMLDivElement;
-  const scrollToBottom = () => {
-    if (scrollContainer) {
-      scrollContainer.scrollTop = scrollContainer.scrollHeight;
-    }
-  };
+  let scrollContainer: HTMLDivElement | undefined;
 
-  const messagesSignal = messages();
-  if (messagesSignal) {
-    setTimeout(scrollToBottom, 0);
-  }
+  createEffect(() => {
+    messages();
+
+    setTimeout(() => {
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+    }, 0);
+  });
 
   return (
     <section
