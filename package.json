@@ -14,6 +14,7 @@
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
     "pg": "^8.16.3",
+    "socket.io": "^4.8.1",
     "solid-js": "^1.9.5",
     "vinxi": "^0.5.7"
   },
@@ -21,10 +22,13 @@
     "node": ">=22"
   },
   "devDependencies": {
+    "@types/bun": "latest",
     "@types/pg": "^8.15.5",
+    "@types/socket.io": "^3.0.2",
+    "@types/socket.io-client": "^3.0.0",
     "drizzle-kit": "^0.31.4",
-    "tsx": "^4.20.5",
-    "@types/bun": "latest"
+    "socket.io-client": "^4.8.1",
+    "tsx": "^4.20.5"
   },
   "private": true,
   "peerDependencies": {
