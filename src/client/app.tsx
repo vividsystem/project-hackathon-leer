@@ -10,7 +10,7 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <a href="/">Index</a>
-          <a href="/deadchat">Chat</a>
+          <a href="/app/deadchat">Chat</a>
           <Suspense>{props.children}</Suspense>
         </MetaProvider>
       )}
