@@ -1,0 +1,10 @@
+.article {
+    transition: 0.3s linear;
+    border-radius: 0.4re;
+    padding: 0.4rem 0.6rem;
+}
+
+article:hover {
+    transform: translateY(-2px);
+    cursor: pointer;
+}
