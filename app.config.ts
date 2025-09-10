@@ -11,6 +11,15 @@ export default defineConfig({
       },
 		},
     ssr: { external: ["drizzle-orm"] },
+		server: {
+			proxy: {
+				"/socket.io": {
+					target: "http://localhost:4000",
+					ws: true,
+				},
+			},
+		},
   },
-	appRoot: "./src/client"
+	appRoot: "./src/client",
+
 });

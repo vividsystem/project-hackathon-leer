@@ -1,6 +1,4 @@
 import { createContext } from "solid-js";
 import { ChatClient } from "./chat";
 
-export const ChatContext = createContext(new ChatClient("https://localhost:4000"))
-
-
+export const ChatContext = createContext(new ChatClient("http://localhost:4000"))

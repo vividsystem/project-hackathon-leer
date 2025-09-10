@@ -1,55 +1,59 @@
 import { Server } from "socket.io"
-import { Player } from "~/shared/types";
+import { Player, Room } from "shared/types";
 
-const io = new Server(4000);
+const io = new Server(4000, {
+	cors: {
+		origin: "http://localhost:3000",
+			methods: ["GET", "POST"],
+			credentials: true
+	}
+
+});
 
 function generateRoomCode() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-interface Room {
-	code: string
-	owner: string
-	dead: string[]
-	alive: string[]
-}
 
 //TODO: replace with database in the future maybe
 const rooms: Record<string, Room> = {};
-const users: Record<string, Player> = {};
+const players: Record<string, Player> = {};
 //client connects to server
 io.on("connection", (socket) => {
 
-  // Set name
+	console.log(socket.id)
   socket.on("set-name", (name: string, callback) => {
-    users[socket.id] = { id: socket.id, name };
+    players[socket.id].name = name;
     callback({ success: true });
   });
 
-  // Create room
   socket.on("create-room", (callback) => {
     const code = Math.random().toString(36).substring(2, 8).toUpperCase();
     socket.join(code);
-    users[socket.id].room = code;
+		if(!players[socket.id]) {
+			players[socket.id] = { id: socket.id, alive: false, gameMaster: true}
+		}
+    players[socket.id].room = code;
     rooms[code] = { code: code, owner: socket.id, dead: [socket.id], alive: []};
-    callback(code);
+    callback(players[socket.id]);
   });
 
-  // Join room
   socket.on("join-room", (code: string, callback) => {
     if (!rooms[code]) {
       callback({ success: false, message: "Room not found" });
       return;
     }
     socket.join(code);
-    users[socket.id].room = code;
+		if(!players[socket.id]) {
+			players[socket.id] = { id: socket.id, alive: true, gameMaster: false}
+		}
+    players[socket.id].room = code;
     rooms[code].alive.push(socket.id);
-    callback({ success: true, code });
+    callback({ success: true, player: players[socket.id] });
   });
 
-  // Send message
   socket.on("send-message", (data) => {
-    const user = users[socket.id];
+    const user = players[socket.id];
     if (!user?.room) return;
     io.to(user.room).emit("receive-message", {
       sender: user.name || "Anonymous",
@@ -57,19 +61,35 @@ io.on("connection", (socket) => {
     });
   });
 
+	socket.on("get-room", (callback) => {
+		if(!players[socket.id]) return callback([])
+		if(!players[socket.id].room) return callback([])
+		return callback(rooms[players[socket.id].room!])
+	})
+
 
 	socket.on("kill-player", (data: {id: string}) => {
-		const user = users[socket.id];
+		const user = players[socket.id];
 		if(!user?.room) return;
 		if(rooms[user.room].owner != socket.id) return;
+
+		const player = players[data.id]
+		if(!player) return
+		if(player.room != user.room) return
 		
 		rooms[user.room].dead = rooms[user.room].dead.filter((id) => id !== data.id)
 		rooms[user.room].alive.push(data.id)
 
+		players[data.id] = { ...player, alive: false}
+
+		io.to(data.id).emit("killed", {...player, alive: false})
+
+
 	})
+	
 
 	socket.on("disconnect", () => {
-    const user = users[socket.id];
+    const user = players[socket.id];
     if (user?.room) {
       const room = rooms[user.room];
       if (room) {
@@ -78,7 +98,7 @@ io.on("connection", (socket) => {
         if (room.dead.length === 0) delete rooms[user.room];
       }
     }
-    delete users[socket.id];
+    delete players[socket.id];
   });
 })
 
