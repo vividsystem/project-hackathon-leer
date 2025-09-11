@@ -10,6 +10,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "@picocss/pico": "^2.1.1",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.14.5",
     "@solidjs/start": "^1.0.6",
