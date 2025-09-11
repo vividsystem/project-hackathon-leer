@@ -16,7 +16,7 @@ const Chat: Component = () => {
 
   let lastId = 0;
   const nextId = () => ++lastId;
-	
+
 	client.onMessage((message) => {
 		setMessages((prev) => [
 			...prev,
@@ -86,7 +86,7 @@ const Chat: Component = () => {
       <div
         ref={scrollContainer}
         class="messages"
-        style="overflow:auto;padding:1rem;flex:1;background:#f9f9f9;"
+        style="overflow:auto;padding:1rem;flex:1;"
       >
         <For each={messages()}>
           {(msg) => (

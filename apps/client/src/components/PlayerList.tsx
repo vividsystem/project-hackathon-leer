@@ -15,7 +15,8 @@ export default function PlayerList(props: {gm: boolean}) {
 		<For each={players()}>
 			{(player, id) => (
 				<div>
-					{player.name ?? "Anonymous"} - {player.alive ? "Alive": "Dead"} - <Show when={props.gm}><div onClick={() => client.kill(player.id)}>Kill</div></Show>
+					{player.name ?? "Anonymous"} - {player.alive ? "Alive": "Dead"}
+				 <Show when={props.gm}><button onClick={() => client.kill(player.id)}>Kill</button></Show>
 				</div>
 			)}
 		</For>
