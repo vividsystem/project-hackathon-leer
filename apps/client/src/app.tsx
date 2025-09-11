@@ -44,8 +44,8 @@ export default function App() {
             onClick={toggle}
             title="Toggle dark mode"
           >
-            <Show when={!isDark()} fallback={<a style={{color: "white", "align-self": "center", "text-decoration": "none", "scale": 1.5}}>☀</a>}>
-              {<a style={{color: "black", "align-self": "center", "text-decoration": "none", "transform": "scale(9)"}}>☾</a>}
+            <Show when={!isDark()} fallback={<a style={{color: "white", "align-self": "center", "text-decoration": "none"}}>☀</a>}>
+              {<a style={{color: "black", "align-self": "center", "text-decoration": "none"}}>☾</a>}
             </Show>
           </button>
           </header>
