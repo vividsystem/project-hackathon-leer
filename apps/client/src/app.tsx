@@ -40,12 +40,12 @@ export default function App() {
           <a href="/app/deadchat">Chat</a>
           <button
             type="button"
-            style={{"background-color": "transparent", border: "none", cursor: "pointer", outline: "none", scale: "1.5"}}
+            style={{"background-color": "transparent", border: "none", cursor: "pointer", outline: "none"}}
             onClick={toggle}
             title="Toggle dark mode"
           >
-            <Show when={!isDark()} fallback={<a style={{color: "white", "align-self": "center", "text-decoration": "none", "font-size": "1.2rem"}}>☀</a>}>
-              {<a style={{color: "black", "align-self": "center", "text-decoration": "none", "font-size": "1.2em"}}>☾</a>}
+            <Show when={!isDark()} fallback={<a style={{color: "white", "align-self": "center", "text-decoration": "none", "scale": 1.5}}>☀</a>}>
+              {<a style={{color: "black", "align-self": "center", "text-decoration": "none", "transform": "scale(9)"}}>☾</a>}
             </Show>
           </button>
           </header>
