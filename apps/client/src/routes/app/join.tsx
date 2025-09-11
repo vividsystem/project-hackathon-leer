@@ -1,13 +1,13 @@
 import { useNavigate } from "@solidjs/router"
-import { createSignal, JSX, useContext } from "solid-js"
-import { ChatContext } from "~/client/lib/contexts"
+import { createSignal, JSX } from "solid-js"
+import "@picocss/pico/css/pico.min.css";
+import { client } from "~/lib/chat";
 
 export default function JoinRoom() {
 	const [code, setCode] = createSignal("")
 	const [name, setName] = createSignal("")
-	const client = useContext(ChatContext)
 	const navigate = useNavigate()
-	const handleJoin: JSX.EventHandlerUnion<HTMLInputElement, SubmitEvent, JSX.EventHandler<HTMLInputElement, SubmitEvent>>= async (e) => {
+	const handleJoin: JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent, JSX.EventHandler<HTMLButtonElement, MouseEvent>>= async (e) => {
 		e.preventDefault()
 		await client.setName(name())
 		const res = await client.joinRoom(code()) as { success: boolean, message: string}
@@ -17,7 +17,7 @@ export default function JoinRoom() {
 	
 
 	}
-	const handleCreate: JSX.EventHandlerUnion<HTMLInputElement, SubmitEvent, JSX.EventHandler<HTMLInputElement, SubmitEvent>> = async (e) => {
+	const handleCreate: JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent, JSX.EventHandler<HTMLButtonElement, MouseEvent>> = async (e) => {
 		e.preventDefault()
 		await client.setName(name())
 		const res = await client.createRoom()
@@ -25,14 +25,12 @@ export default function JoinRoom() {
 	}
 	return (
 		<div>
-			<form>
-				<input type="text" name="name" placeholder="Insert your name" onChange={(ev) => setName(ev.currentTarget.value)}/>	
+				<input type="text" name="name" placeholder="Insert your name" onInput={(ev) => setName(ev.currentTarget.value)}/>	
 				<fieldset role="group">
-					<input type="text" name="code" placeholder="Insert your room code" onChange={(ev) => setCode(ev.currentTarget.value)}/>
-					<input type="submit" value="Join" onSubmit={handleJoin}/>
+					<input type="string" name="code" placeholder="Insert your room code" onChange={(ev) => setCode(ev.currentTarget.value)}/>
+					<button value="Join" onClick={handleJoin}>Join</button>
 				</fieldset>
-				<input type="submit" value="Create Room" onSubmit={handleCreate}/>
-			</form>
+				<button value="Create Room" onClick={handleCreate}>Create Room</button>
 		</div>
 
 

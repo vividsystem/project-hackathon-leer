@@ -1,11 +1,10 @@
 import { useNavigate } from "@solidjs/router"
-import { onMount, Show, useContext } from "solid-js"
-import GamemasterDisplay from "~/client/components/GamemasterDisplay";
-import PlayerDisplay from "~/client/components/PlayerDisplay";
-import { ChatContext } from "~/client/lib/contexts"
+import { onMount, Show } from "solid-js"
+import GamemasterDisplay from "~/components/GamemasterDisplay";
+import PlayerDisplay from "~/components/PlayerDisplay";
+import { client } from "~/lib/chat";
 
 export default function GamePage() {
-	const client = useContext(ChatContext)
 	const navigate = useNavigate();
 	
 	onMount(() => {
@@ -15,8 +14,14 @@ export default function GamePage() {
 	})
 	
 	return (
+		<>
 		<Show when={client.getPlayer()?.gameMaster} fallback={<PlayerDisplay/>}>
 			<GamemasterDisplay/>	
 		</Show>
+		<button onClick={async () => {
+			await client.leaveRoom()
+			navigate("/app/join")
+		}}>Leave</button>
+		</>
 	)
 }

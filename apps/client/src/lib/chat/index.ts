@@ -1,5 +1,5 @@
+import { Player, Room } from "shared";
 import { io, Socket } from "socket.io-client";
-import { Player } from "~/shared/types";
 
 export type ChatMessage = {
   sender: string;
@@ -7,11 +7,14 @@ export type ChatMessage = {
 };
 
 type MessageHandler = (msg: ChatMessage) => void;
+type PlayerHandler = (players: Player[]) => void;
 
 export class ChatClient {
   private socket: Socket;
   private messageHandlers: MessageHandler[] = [];
+  private playerHandlers: PlayerHandler[] = [];
 	private player?: Player;
+	private room?: Room
 
   constructor(serverUrl: string) {
     this.socket = io(serverUrl, { withCredentials: true });
@@ -26,15 +29,21 @@ export class ChatClient {
 				this.player = res
 			}
 		})
+
+		this.socket.on("player-list", (res: Player[]) => {
+			this.playerHandlers.forEach((h) => h(res))
+		})
   }
 
-  async setName(name: string): Promise<void> {
-    return new Promise((resolve, reject) => {
+  async setName(name: string) {
+    const res = new Promise((resolve, reject) => {
       this.socket.emit("set-name", name, (res: any) => {
-        if (res.success) resolve();
-        else reject(new Error("Failed to set name"));
+        return resolve(res);
       });
-    });
+    }) as {success: boolean, player: Player}
+
+		this.player = res.player
+		return res
   }
 
   async createRoom() {
@@ -44,6 +53,12 @@ export class ChatClient {
       });
     }) as Player;
 		this.player = res
+		this.room = {
+			code: this.player.room!,
+			owner: this.player.id,
+			alive: [this.player.id],
+			dead: []
+		}
 
 		return res
   }
@@ -64,13 +79,16 @@ export class ChatClient {
 
   async joinRoom(code: string) {
     const res = await new Promise((resolve) => {
-      this.socket.emit("join-room", code, (res: {success: boolean, player: Player}) => {
+      this.socket.emit("join-room", code, (res: any) => {
 				return resolve(res)
       });
-    }) as {success: boolean, player?: Player, message?: string};
+    }) as {success: boolean, player?: Player, message?: string, room?: Room};
 
 		if(res.player) {
 			this.player = res.player
+		}
+		if(res.room) {
+			this.room = res.room
 		}
 		return res
   }
@@ -83,6 +101,10 @@ export class ChatClient {
     this.messageHandlers.push(handler);
   }
 
+	onPlayerChange(handler: PlayerHandler) {
+		this.playerHandlers.push(handler)
+	}
+
   disconnect(): void {
     this.socket.disconnect();
   }
@@ -90,4 +112,25 @@ export class ChatClient {
 	inRoom(): boolean {
 		return this.player?.room !== undefined
 	}
+	
+	async leaveRoom() {
+		const res = await new Promise((resolve) => {
+			this.socket.emit("leave-room", (res: {success: boolean, player: Player}) => (
+				resolve(res)
+			))
+		}) as { success: boolean, player: Player}
+
+		this.player = res.player
+		this.room = undefined
+	}
+
+	async getPlayers() {
+		const res = await new Promise((resolve) => {
+			this.socket.emit("get-room-players", (res: Player[]) => resolve(res))
+		}) as Player[]
+
+		return res
+	}
 }
+
+export const client = new ChatClient("http://localhost:4000")

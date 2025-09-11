@@ -1,6 +1,6 @@
-import { createSignal, For, Show, JSX, Component, useContext, createEffect } from "solid-js";
+import { createSignal, For, Component, createEffect } from "solid-js";
 import "@picocss/pico/css/pico.min.css";
-import { ChatContext } from "~/lib/contexts";
+import { client } from "~/lib/chat";
 
 type Message = {
   id: number;
@@ -17,7 +17,6 @@ const Chat: Component = () => {
   let lastId = 0;
   const nextId = () => ++lastId;
 	
-	const client = useContext(ChatContext)
 	client.onMessage((message) => {
 		setMessages((prev) => [
 			...prev,

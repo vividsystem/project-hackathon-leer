@@ -1,5 +1,5 @@
+import { Player, Room } from "packages/shared";
 import { Server } from "socket.io"
-import { Player, Room } from "shared/types";
 
 const io = new Server(4000, {
 	cors: {
@@ -10,30 +10,46 @@ const io = new Server(4000, {
 
 });
 
-function generateRoomCode() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase();
-}
-
-
 //TODO: replace with database in the future maybe
 const rooms: Record<string, Room> = {};
 const players: Record<string, Player> = {};
 //client connects to server
-io.on("connection", (socket) => {
 
+
+const initializePlayer = (id: string, name?: string) => {
+	players[id] = { id: id, name: name, alive: true, gameMaster: false } 
+}
+const roomPlayers = (room: Room) => {
+	return [
+		...room.alive.map((id) => players[id]), 
+		...room.dead.map((id) => players[id])
+	]
+}
+
+io.on("connection", (socket) => {
 	console.log(socket.id)
+
   socket.on("set-name", (name: string, callback) => {
-    players[socket.id].name = name;
-    callback({ success: true });
+		console.log(`${socket.id} set name to ${name}`)
+		if(!players[socket.id]) {
+			initializePlayer(socket.id, name)
+		} else {
+    	players[socket.id].name = name;
+		}
+    callback({ success: true, player: players[socket.id] });
   });
 
   socket.on("create-room", (callback) => {
     const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+		console.log(`${socket.id} created ${code}`)
     socket.join(code);
 		if(!players[socket.id]) {
-			players[socket.id] = { id: socket.id, alive: false, gameMaster: true}
+			initializePlayer(socket.id)
 		}
     players[socket.id].room = code;
+		players[socket.id].gameMaster = true
+		players[socket.id].alive = false
     rooms[code] = { code: code, owner: socket.id, dead: [socket.id], alive: []};
     callback(players[socket.id]);
   });
@@ -45,12 +61,38 @@ io.on("connection", (socket) => {
     }
     socket.join(code);
 		if(!players[socket.id]) {
-			players[socket.id] = { id: socket.id, alive: true, gameMaster: false}
+			initializePlayer(socket.id)
 		}
+		console.log(`${socket.id} joined ${code}`)
     players[socket.id].room = code;
     rooms[code].alive.push(socket.id);
-    callback({ success: true, player: players[socket.id] });
+
+    socket.to(code).emit("player-list", roomPlayers(rooms[code]));
+    callback({ success: true, player: players[socket.id], room: rooms[code] });
   });
+
+	socket.on("leave-room", (callback) => {
+		const player = players[socket.id]
+		if(!player) {
+			initializePlayer(socket.id)
+			return callback({success:false, player: players[socket.id]})
+		}
+		if(!player.room) return callback({ success: false, player: player})
+		if (player.alive) {
+			rooms[player.room].alive = rooms[player.room].alive.filter((id) => id !== socket.id)
+		} else {
+
+			rooms[player.room].dead = rooms[player.room].alive.filter((id) => id !== socket.id)
+		}
+		players[socket.id].room = undefined	
+		players[socket.id].alive = true
+		players[socket.id].gameMaster = false 
+		
+
+    socket.to(player.room!).emit("player-list", roomPlayers(rooms[player.room!]));
+		return callback({ success: true, player: players[socket.id]})
+
+	})
 
   socket.on("send-message", (data) => {
     const user = players[socket.id];
@@ -65,6 +107,14 @@ io.on("connection", (socket) => {
 		if(!players[socket.id]) return callback([])
 		if(!players[socket.id].room) return callback([])
 		return callback(rooms[players[socket.id].room!])
+	})
+
+	socket.on("get-room-players", (callback) => {
+		if(!players[socket.id]) return callback([])
+		if(!players[socket.id].room) return callback([])
+		const room = rooms[players[socket.id].room!]
+
+		return callback(roomPlayers(room))
 	})
 
 
