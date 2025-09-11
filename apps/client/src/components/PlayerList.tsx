@@ -1,8 +1,8 @@
 import { Player } from "shared";
-import { createEffect, createSignal, For, onMount } from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import { client } from "~/lib/chat";
 
-export default function PlayerList() {
+export default function PlayerList(props: {gm: boolean}) {
 	const [players, setPlayers] = createSignal<Player[]>([])
 
 	onMount(async () => {
@@ -15,7 +15,7 @@ export default function PlayerList() {
 		<For each={players()}>
 			{(player, id) => (
 				<div>
-					{player.name ?? "Anonymous"} - {player.alive ? "Alive": "Dead"}
+					{player.name ?? "Anonymous"} - {player.alive ? "Alive": "Dead"} - <Show when={props.gm}><div onClick={() => client.kill(player.id)}>Kill</div></Show>
 				</div>
 			)}
 		</For>

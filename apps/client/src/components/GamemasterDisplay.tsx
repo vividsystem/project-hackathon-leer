@@ -8,7 +8,7 @@ export default function GamemasterDisplay() {
 			<div>
 				your room number: {client.getPlayer()?.room ?? ""}
 			</div>
-			<PlayerList />
+			<PlayerList gm={true}/>
 		
 		</div>
 	)

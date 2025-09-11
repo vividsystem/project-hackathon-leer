@@ -131,6 +131,10 @@ export class ChatClient {
 
 		return res
 	}
+
+	async kill(id: string) {
+		this.socket.emit("kill-player", { id: id })
+	}
 }
 
 export const client = new ChatClient("http://localhost:4000")
