@@ -1,6 +1,6 @@
 import { createSignal, For, Show, JSX, Component, useContext, createEffect } from "solid-js";
 import "@picocss/pico/css/pico.min.css";
-import { ChatContext } from "~/client/lib/contexts";
+import { ChatContext } from "~/lib/contexts";
 
 type Message = {
   id: number;

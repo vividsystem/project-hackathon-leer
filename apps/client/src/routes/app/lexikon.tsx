@@ -1,5 +1,3 @@
-import { A } from "@solidjs/router";
-import { duration } from "drizzle-orm/gel-core";
 import { For } from "solid-js";
 import "@picocss/pico/css/pico.min.css";
 import "./css/lexikon.css"

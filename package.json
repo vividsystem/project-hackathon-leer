@@ -1,41 +1,31 @@
 {
   "name": "project-hackathon-leer",
+  "version": "1.0.0",
+  "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "client:dev": "vinxi dev",
-    "client:build": "vinxi build",
-    "client:start": "vinxi start",
-    "client:version": "vinxi version",
-    "server:dev": "ts-node-dev --respawn --transpile-only ./src/server/server.ts"
-  },
-  "dependencies": {
-    "@picocss/pico": "^2.1.1",
-    "@solidjs/meta": "^0.29.4",
-    "@solidjs/router": "^0.15.0",
-    "@solidjs/start": "^1.1.0",
-    "dotenv": "^17.2.2",
-    "drizzle-orm": "^0.44.5",
-    "pg": "^8.16.3",
-    "socket.io": "^4.8.1",
-    "solid-js": "^1.9.5",
-    "vinxi": "^0.5.7"
-  },
-  "engines": {
-    "node": ">=22"
+    "dev": "bun run --filter '*' dev",
+    "dev:client": "bun run --filter client dev",
+    "dev:server": "bun run --filter server dev",
+    "build": "bun run --filter '*' build",
+    "build:client": "bun run --filter client build",
+    "build:server": "bun run --filter server build",
+    "start": "bun run --filter '*' start",
+    "start:client": "bun run --filter client start",
+    "start:server": "bun run --filter server start",
+    "typecheck": "bun run --filter '*' typecheck",
+    "lint": "bun run --filter '*' lint",
+    "clean": "rm -rf apps/*/dist apps/*/.solid apps/*/.vinxi packages/*/dist node_modules apps/*/node_modules packages/*/node_modules"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/pg": "^8.15.5",
-    "@types/socket.io": "^3.0.2",
-    "@types/socket.io-client": "^3.0.0",
-    "drizzle-kit": "^0.31.4",
-    "socket.io-client": "^4.8.1",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "tsx": "^4.20.5"
+    "typescript": "^5.9.2"
   },
-  "private": true,
-  "peerDependencies": {
-    "typescript": "^5"
+  "engines": {
+    "bun": ">=1.1.0"
   }
 }
