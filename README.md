@@ -3,11 +3,12 @@
 Install dependencies with `bun install` (or `npm install` or `yarn`), start a development server:
 
 ```bash
-bun run client:dev
+bun run dev
 
-# or start the server and open the app in a new browser tab
-bun run client:dev -- --open
 ```
+
+To start server or client individually cd
+into their subdirectories and run the same command there
 
 ## Building
 
