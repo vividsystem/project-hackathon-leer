@@ -16,7 +16,7 @@ export default function PlayerList(props: {gm: boolean}) {
 		<For each={players()}>
 			{(player, id) => (
 				<div>
-					{player.name ?? "Anonymous"} {player.id == client.getPlayer()?.id ? "(you)" :""} { id() == 0 ? <Crown />: ""}- {player.alive ? "Alive": "Dead"} 
+					{player.name ?? "Anonymous"} {player.id == client.getPlayer()?.id ? "(you)" :""} { player.id == client.getRoom()?.owner ? <Crown />: ""}- {player.alive ? "Alive": "Dead"} 
 					<Show when={props.gm && player.alive}>
 						- <button onClick={() => {
 							console.log("killed")

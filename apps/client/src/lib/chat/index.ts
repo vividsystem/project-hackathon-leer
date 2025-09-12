@@ -63,7 +63,7 @@ export class ChatClient {
 		return res
   }
 
-	async getRoom() {
+	async getPlayersInRoom() {
 		return new Promise((resolve) => {
 			this.socket.emit("get-room", (res: {success: boolean, message?: string, players?: Player[]}) => {
 				resolve(res)
@@ -134,6 +134,10 @@ export class ChatClient {
 
 	async kill(id: string) {
 		this.socket.emit("kill-player",  id)
+	}
+
+	getRoom() {
+		return this.room
 	}
 }
 
