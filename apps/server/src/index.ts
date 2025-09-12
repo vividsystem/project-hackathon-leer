@@ -59,6 +59,7 @@ io.on("connection", (socket) => {
       callback({ success: false, message: "Room not found" });
       return;
     }
+		if(rooms[code].alive.includes(socket.id) || rooms[code].dead.includes(socket.id)) return
     socket.join(code);
 		if(!players[socket.id]) {
 			initializePlayer(socket.id)
