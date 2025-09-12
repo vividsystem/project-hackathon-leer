@@ -14,7 +14,7 @@ export default function GamePage() {
 	})
 	
 	return (
-		<>
+		<div style={{"margin-left": "1rem"}}>
 		<Show when={client.getPlayer()?.gameMaster} fallback={<PlayerDisplay/>}>
 			<GamemasterDisplay/>	
 		</Show>
@@ -22,6 +22,6 @@ export default function GamePage() {
 			await client.leaveRoom()
 			navigate("/app/join")
 		}}>Leave</button>
-		</>
+		</div>
 	)
 }
