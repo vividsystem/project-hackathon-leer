@@ -1,10 +1,9 @@
-import { MetaProvider, Title } from "@solidjs/meta";
+import { MetaProvider } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-import { Suspense } from "solid-js";
-import "./app.css";
-import { createSignal, onMount } from "solid-js";
+import { createSignal, onMount, Suspense } from "solid-js";
 import { Show } from "solid-js/web";
+import "./app.css";
 
 export const [isDark, setIsDark] = createSignal(false);
 
@@ -32,23 +31,34 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
-          <header class="topbar" style={{display: "flex",
-          "align-items": "center",
-          "justify-content": "space-between"}}>
-          <a href="/">Index</a>
-          <a href="/app/lexikon">Lexikon</a>
-          <a href="/app/deadchat">Chat</a>
-          <button
-            type="button"
-            style={{"background-color": "transparent", border: "none", cursor: "pointer", outline: "none"}}
-            onClick={toggle}
-            title="Toggle dark mode"
-          >
-            <Show when={!isDark()} fallback={<a style={{color: "white", "align-self": "center", "text-decoration": "none"}}>☀</a>}>
-              {<a style={{color: "black", "align-self": "center", "text-decoration": "none"}}>☾</a>}
-            </Show>
-          </button>
-          </header>
+          <nav style={{"width": "98%", "margin-left": "1%"}}>
+            <ul>
+              <li>
+                <a href="/">Index</a>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <a href="/app/lexikon">Lexikon</a>
+              </li>
+              <li>
+                <a href="/app/deadchat">Chat</a>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  style={{ "background-color": "transparent", border: "none", cursor: "pointer", outline: "none" }}
+                  onClick={toggle}
+                  title="Toggle dark mode"
+                >
+                  <Show when={!isDark()} fallback={<a style={{ color: "white", "align-self": "center", "text-decoration": "none" }}>☀</a>}>
+                    {<a style={{ color: "black", "align-self": "center", "text-decoration": "none" }}>☾</a>}
+                  </Show>
+                </button>
+              </li>
+            </ul>
+          </nav>
+          
           <Suspense>{props.children}</Suspense>
         </MetaProvider>
       )}
