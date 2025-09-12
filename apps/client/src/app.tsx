@@ -1,33 +1,34 @@
-import { MetaProvider, Title } from "@solidjs/meta";
+import { MetaProvider } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
 import "./app.css";
-import { createSignal, onMount } from "solid-js";
-import { Show } from "solid-js/web";
+import { createSignal, onMount, Show } from "solid-js";
+import { Moon, Sun } from "lucide-solid"
+import "@picocss/pico/css/pico.min.css";
 
-export const [isDark, setIsDark] = createSignal(false);
 
-onMount(() => {
-  if (typeof window === "undefined") return;
-
-  const stored = localStorage.getItem("theme");
-  const dark = stored === "dark";
-
-  setIsDark(dark);
-  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-});
-
-const toggle = () => {
-  if (typeof window === "undefined") return;
-
-  const next = !isDark();
-  setIsDark(next);
-  document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
-  localStorage.setItem("theme", next ? "dark" : "light");
-};
-
+const [isDark, setIsDark] = createSignal(false);
 export default function App() {
+	const toggle = () => {
+		if (typeof window === "undefined") return;
+
+		const next = !isDark();
+		setIsDark(next);
+		document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
+		localStorage.setItem("theme", next ? "dark" : "light");
+	};
+
+	onMount(() => {
+		if (typeof window === "undefined") return;
+
+		const stored = localStorage.getItem("theme");
+		const dark = stored === "dark";
+
+		setIsDark(dark);
+		document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+	});
+
   return (
     <Router
       root={(props) => (
@@ -44,8 +45,8 @@ export default function App() {
             onClick={toggle}
             title="Toggle dark mode"
           >
-            <Show when={!isDark()} fallback={<a style={{color: "white", "align-self": "center", "text-decoration": "none"}}>☀</a>}>
-              {<a style={{color: "black", "align-self": "center", "text-decoration": "none"}}>☾</a>}
+            <Show when={!isDark()} fallback={<Sun/>}>
+							{<Moon class="text-black"/>}
             </Show>
           </button>
           </header>
