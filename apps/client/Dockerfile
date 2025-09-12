@@ -8,6 +8,6 @@ EXPOSE 3000
 
 RUN ["bun", "i"]
 
-RUN ["bun", "run", "client:build"]
+RUN ["bun", "run", "build"]
 
-CMD ["bun", "client:start"]
+CMD ["bun", "start"]

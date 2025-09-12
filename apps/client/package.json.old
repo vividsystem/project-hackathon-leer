@@ -1,0 +1,23 @@
+{
+  "name": "client",
+	"type": "module",
+  "scripts": {
+    "dev": "bunx vinxi dev",
+    "build": "bunx vinxi build",
+    "start": "bunx vinxi start"
+  },
+  "dependencies": {
+    "@shared/types": "workspace:*",
+		"@picocss/pico": "^2.1.1",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.0",
+    "@solidjs/start": "^1.1.0",
+    "dotenv": "^17.2.2",
+    "pg": "^8.16.3",
+    "solid-js": "^1.9.5",
+    "vinxi": "^0.5.7"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

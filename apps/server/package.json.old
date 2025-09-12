@@ -1,0 +1,16 @@
+{
+  "name": "server",
+	"type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "start": "bun dist/index.js"
+  },
+  "dependencies": {
+    "@shared/types": "workspace:*",
+    "socket.io": "^4.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

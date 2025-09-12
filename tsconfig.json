@@ -1,22 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2022",
     "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "allowJs": true,
+    "moduleResolution": "Bundler",
     "strict": true,
-    "noEmit": true,
-    "types": ["vinxi/types/client"],
-    "isolatedModules": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+		"composite": true,
+    "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "client/*": ["./src/client/*"],
-      "server/*": ["./src/server/*"],
-      "shared/*": ["./src/shared/*"],
+      "@shared/*": ["packages/shared/src/*"]
     }
-  }
+  },
+  "include": ["apps", "packages"]
 }

@@ -1,5 +1,7 @@
-import { createSignal, For, Show, JSX, Component } from "solid-js";
+import { createSignal, For, Component, createEffect } from "solid-js";
 import "@picocss/pico/css/pico.min.css";
+import { client } from "~/lib/chat";
+import { ChatMessage } from "~/lib/chat";
 
 type Message = {
   id: number;
@@ -16,6 +18,12 @@ const Chat: Component = () => {
   let lastId = 0;
   const nextId = () => ++lastId;
 
+	client.onMessage((message) => {
+    if (client.getPlayer()?.id == message.sender.id) return;
+    addMessage(message.message, false, message.sender.name);
+	})
+
+
   const addMessage = (text: string, sentByUser: boolean, sender: string) => {
     setMessages((prev) => [
       ...prev,
@@ -29,18 +37,19 @@ const Chat: Component = () => {
     ]);
   };
 
-  const simulateReply = () => {
-    setTimeout(() => {
-      addMessage("pong:" + input(), false, "Test");
-    }, 800);
-  };
-
   const send = () => {
     const txt = input().trim();
     if (!txt) return;
     addMessage(txt, true, "Me");
-    setInput("");
-    simulateReply();
+    const msg: ChatMessage = {
+      sender: {
+				id: client.id() ?? "",
+				name: client.getPlayer()?.name ?? "Anonymous",
+			}, 
+      message: txt
+    };
+    client.sendMessage(msg);
+		setInput("")
   };
 
   const handleKey = (e: KeyboardEvent) => {
@@ -50,17 +59,17 @@ const Chat: Component = () => {
     }
   };
 
-  let scrollContainer!: HTMLDivElement;
-  const scrollToBottom = () => {
-    if (scrollContainer) {
-      scrollContainer.scrollTop = scrollContainer.scrollHeight;
-    }
-  };
+  let scrollContainer: HTMLDivElement | undefined;
 
-  const messagesSignal = messages();
-  if (messagesSignal) {
-    setTimeout(scrollToBottom, 0);
-  }
+  createEffect(() => {
+    messages();
+
+    setTimeout(() => {
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+    }, 0);
+  });
 
   return (
     <section
@@ -70,7 +79,7 @@ const Chat: Component = () => {
       <div
         ref={scrollContainer}
         class="messages"
-        style="overflow:auto;padding:1rem;flex:1;background:#f9f9f9;"
+        style="overflow:auto;padding:1rem;flex:1;"
       >
         <For each={messages()}>
           {(msg) => (

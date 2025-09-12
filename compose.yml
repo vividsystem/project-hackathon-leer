@@ -1,8 +1,15 @@
 services:
-  server:
+  client:
     image: client
     build:
-      context: .
+      context: ./apps/client/
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+  server:
+    image: server 
+    build:
+      context: ./apps/server/
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
