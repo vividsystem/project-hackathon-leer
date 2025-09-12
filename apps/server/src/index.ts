@@ -118,21 +118,23 @@ io.on("connection", (socket) => {
 	})
 
 
-	socket.on("kill-player", (data: {id: string}) => {
+	socket.on("kill-player", (id: string) => {
 		const user = players[socket.id];
 		if(!user?.room) return;
+
 		if(rooms[user.room].owner != socket.id) return;
 
-		const player = players[data.id]
+		const player = players[id]
 		if(!player) return
 		if(player.room != user.room) return
-		
-		rooms[user.room].dead = rooms[user.room].dead.filter((id) => id !== data.id)
-		rooms[user.room].alive.push(data.id)
 
-		players[data.id] = { ...player, alive: false}
+		rooms[user.room].dead.push(id)
+		rooms[user.room].alive = rooms[user.room].alive.filter((pid) => pid !== id) 
 
-		io.to(data.id).emit("killed", {...player, alive: false})
+		players[id] = { ...player, alive: false}
+
+		console.log(`killed player ${id}`)
+		io.to(id).emit("killed", {...player, alive: false})
     socket.to(user.room).emit("player-list", roomPlayers(rooms[user.room]));
 
 	})

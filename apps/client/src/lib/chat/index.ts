@@ -133,7 +133,7 @@ export class ChatClient {
 	}
 
 	async kill(id: string) {
-		this.socket.emit("kill-player", { id: id })
+		this.socket.emit("kill-player",  id)
 	}
 }
 
