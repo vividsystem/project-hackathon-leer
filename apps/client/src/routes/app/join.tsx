@@ -24,7 +24,7 @@ export default function JoinRoom() {
 		navigate("/app/game")
 	}
 	return (
-		<div>
+		<div style={{"margin-left": "1rem", "margin-right": "1rem"}}>
 				<input type="text" name="name" placeholder="Insert your name" onInput={(ev) => setName(ev.currentTarget.value)}/>	
 				<fieldset role="group">
 					<input type="string" name="code" placeholder="Insert your room code" onChange={(ev) => setCode(ev.currentTarget.value)}/>

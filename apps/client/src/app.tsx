@@ -33,6 +33,7 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
+<<<<<<< HEAD
           <header class="topbar" style={{display: "flex",
           "align-items": "center",
           "justify-content": "space-between"}}>
@@ -50,6 +51,36 @@ export default function App() {
             </Show>
           </button>
           </header>
+=======
+          <nav style={{"width": "98%", "margin-left": "1%"}}>
+            <ul>
+              <li>
+                <a href="/">Index</a>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <a href="/app/lexikon">Lexikon</a>
+              </li>
+              <li>
+                <a href="/app/deadchat">Chat</a>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  style={{ "background-color": "transparent", border: "none", cursor: "pointer", outline: "none" }}
+                  onClick={toggle}
+                  title="Toggle dark mode"
+                >
+                  <Show when={!isDark()} fallback={<a style={{ color: "white", "align-self": "center", "text-decoration": "none" }}>☀</a>}>
+                    {<a style={{ color: "black", "align-self": "center", "text-decoration": "none" }}>☾</a>}
+                  </Show>
+                </button>
+              </li>
+            </ul>
+          </nav>
+          
+>>>>>>> origin/death-chat
           <Suspense>{props.children}</Suspense>
         </MetaProvider>
       )}
