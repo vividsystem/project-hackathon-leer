@@ -99,7 +99,10 @@ io.on("connection", (socket) => {
     const user = players[socket.id];
     if (!user?.room) return;
     io.to(user.room).emit("receive-message", {
-      sender: user.name || "Anonymous",
+      sender: {
+				id: socket.id,
+				name: user.name || "Anonymous"
+			},
       message: data.message,
     });
   });

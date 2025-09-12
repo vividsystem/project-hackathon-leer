@@ -19,9 +19,8 @@ const Chat: Component = () => {
   const nextId = () => ++lastId;
 
 	client.onMessage((message) => {
-    if (client.getPlayer()?.name == message.sender) return;
-    addMessage(message.message, false, message.sender
-    );
+    if (client.getPlayer()?.id == message.sender.id) return;
+    addMessage(message.message, false, message.sender.name);
 	})
 
 
@@ -43,10 +42,14 @@ const Chat: Component = () => {
     if (!txt) return;
     addMessage(txt, true, "Me");
     const msg: ChatMessage = {
-      sender: "",
+      sender: {
+				id: client.id() ?? "",
+				name: client.getPlayer()?.name ?? "Anonymous",
+			}, 
       message: txt
     };
     client.sendMessage(msg);
+		setInput("")
   };
 
   const handleKey = (e: KeyboardEvent) => {

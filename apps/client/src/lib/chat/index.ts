@@ -2,7 +2,10 @@ import { Player, Room } from "shared";
 import { io, Socket } from "socket.io-client";
 
 export type ChatMessage = {
-  sender: string;
+  sender: {
+		id: string
+		name: string
+	};
   message: string;
 };
 
@@ -138,6 +141,10 @@ export class ChatClient {
 
 	getRoom() {
 		return this.room
+	}
+
+	id() {
+		return this.socket.id
 	}
 }
 
