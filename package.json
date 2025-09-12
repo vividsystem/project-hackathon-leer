@@ -29,6 +29,5 @@
     "bun": ">=1.1.0"
   },
   "dependencies": {
-    "lucide-solid": "^0.544.0"
   }
 }

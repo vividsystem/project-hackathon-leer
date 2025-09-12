@@ -37,3 +37,11 @@ p {
     max-width: none;
   }
 }
+
+.button:focus {
+    outline: none;
+}
+
+.button:hover {
+    outline: none;
+}

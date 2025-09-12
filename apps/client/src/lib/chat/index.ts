@@ -71,7 +71,7 @@ export class ChatClient {
 		})
 
 	}
-	
+
 	getPlayer() {
 		return this.player
 	}
@@ -93,7 +93,7 @@ export class ChatClient {
 		return res
   }
 
-  sendMessage(message: string): void {
+  sendMessage(message: ChatMessage): void {
     this.socket.emit("send-message", message);
   }
 
@@ -112,7 +112,7 @@ export class ChatClient {
 	inRoom(): boolean {
 		return this.player?.room !== undefined
 	}
-	
+
 	async leaveRoom() {
 		const res = await new Promise((resolve) => {
 			this.socket.emit("leave-room", (res: {success: boolean, player: Player}) => (

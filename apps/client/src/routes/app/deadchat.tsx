@@ -1,6 +1,7 @@
 import { createSignal, For, Component, createEffect } from "solid-js";
 import "@picocss/pico/css/pico.min.css";
 import { client } from "~/lib/chat";
+import { ChatMessage } from "~/lib/chat";
 
 type Message = {
   id: number;
@@ -16,18 +17,11 @@ const Chat: Component = () => {
 
   let lastId = 0;
   const nextId = () => ++lastId;
-	
+
 	client.onMessage((message) => {
-		setMessages((prev) => [
-			...prev,
-			{
-				id: nextId(),
-				sender: message.sender,
-				text: message.message,
-				sentByUser: true,
-				timestamp: new Date()
-			}
-		])
+    if (client.getPlayer()?.name == message.sender) return;
+    addMessage(message.message, false, message.sender
+    );
 	})
 
 
@@ -44,19 +38,15 @@ const Chat: Component = () => {
     ]);
   };
 
-  const simulateReply = () => {
-    setTimeout(() => {
-      addMessage("pong:" + input(), false, "Test");
-    }, 800);
-  };
-
   const send = () => {
     const txt = input().trim();
     if (!txt) return;
     addMessage(txt, true, "Me");
-		client.sendMessage(txt)
-    setInput("");
-    simulateReply();
+    const msg: ChatMessage = {
+      sender: "",
+      message: txt
+    };
+    client.sendMessage(msg);
   };
 
   const handleKey = (e: KeyboardEvent) => {
@@ -86,7 +76,7 @@ const Chat: Component = () => {
       <div
         ref={scrollContainer}
         class="messages"
-        style="overflow:auto;padding:1rem;flex:1;background:#f9f9f9;"
+        style="overflow:auto;padding:1rem;flex:1;"
       >
         <For each={messages()}>
           {(msg) => (
