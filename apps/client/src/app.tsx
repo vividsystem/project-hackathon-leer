@@ -1,11 +1,11 @@
+import "./app.css";
+
 import { MetaProvider } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
-import "./app.css";
 import { createSignal, onMount, Show } from "solid-js";
 import { Moon, Sun } from "lucide-solid"
-import "@picocss/pico/css/pico.min.css";
 
 
 const [isDark, setIsDark] = createSignal(false);

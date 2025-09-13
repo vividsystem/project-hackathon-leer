@@ -16,7 +16,7 @@
 		"baseUrl": "src",
     "paths": {
       "~/*": ["*"],
-      "@shared/*": ["../../packages/shared/src/*"]
+      "shared/*": ["../../packages/shared/src/*"]
     }
   },
 	"include": ["src"],

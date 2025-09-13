@@ -1,5 +1,4 @@
 import { createSignal, For, Component, createEffect } from "solid-js";
-import "@picocss/pico/css/pico.min.css";
 import { client } from "~/lib/chat";
 import { ChatMessage } from "~/lib/chat";
 
