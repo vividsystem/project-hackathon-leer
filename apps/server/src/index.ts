@@ -139,7 +139,7 @@ io.on("connection", (socket) => {
 
 		console.log(`killed player ${id}`)
 		io.to(id).emit("killed", {...player, alive: false})
-    socket.to(user.room).emit("player-list", roomPlayers(rooms[user.room]));
+    io.to(user.room).emit("player-list", roomPlayers(rooms[user.room]));
 
 	})
 	
