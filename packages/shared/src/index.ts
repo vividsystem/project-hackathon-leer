@@ -12,3 +12,13 @@ export interface Room {
 	dead: string[]
 	alive: string[]
 }
+
+export interface Role {
+  name: string;
+  description: string;
+	frequency: "once" | "every_night" | "never"
+	wolf: boolean
+}
+
+import * as roles from "./roles"
+export  { roles }
