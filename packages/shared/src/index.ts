@@ -16,9 +16,11 @@ export interface Room {
 export interface Role {
   name: string;
   description: string;
-	frequency: "once" | "every_night" | "never"
-	wolf: boolean
+  frequency: "once" | "every_night" | "never";
+  wolf: boolean;
+  icon: LucideIcon;
 }
 
+import { LucideIcon } from "lucide-solid"
 import * as roles from "./roles"
 export  { roles }

@@ -13,7 +13,12 @@ export default function Home() {
             <>
               <article
                 class="card p-3">
-                <h3>{role.name} {role.wolf ? "(Wolf)": "(Dorf)"}</h3>
+                <h3 style={{"vertical-align": "middle", "align-items": "center", "display": "flex"}}>
+                  <div style={{"margin-right": "0.5rem"}}>
+                  <role.icon/>
+                  </div>
+                  {role.name} {role.wolf ? "(Wolf)": "(Dorf)"}
+                </h3>
                 <p>{role.description}</p>
               </article>
             </>
