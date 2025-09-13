@@ -53,8 +53,8 @@ export default function App() {
                   onClick={toggle}
                   title="Toggle dark mode"
                 >
-                  <Show when={!isDark()} fallback={<a style={{ color: "white", "align-self": "center", "text-decoration": "none" }}>☀</a>}>
-                    {<a style={{ color: "black", "align-self": "center", "text-decoration": "none" }}>☾</a>}
+                  <Show when={!isDark()} fallback={<Sun/>}>
+                    {<Moon class="stroke-black"/>}
                   </Show>
                 </button>
               </li>
