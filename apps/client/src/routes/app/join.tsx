@@ -7,8 +7,8 @@ export default function JoinRoom() {
   const [name, setName] = createSignal("")
   const navigate = useNavigate()
 
-	const handleJoin: JSX.EventHandlerUnion<HTMLInputElement, MouseEvent, JSX.EventHandler<HTMLInputElement, MouseEvent>> = async (e) => {
-    e.preventDefault()
+	const handleJoin = async (event: Event) => {
+    event.preventDefault()
     await client.setName(name())
     const res = await client.joinRoom(code()) as { success: boolean, message: string }
     if (res.success) {
@@ -16,8 +16,8 @@ export default function JoinRoom() {
     }
   }
 
-	const handleCreate: JSX.EventHandlerUnion<HTMLInputElement, MouseEvent, JSX.EventHandler<HTMLInputElement, MouseEvent>> = async (e) => {
-    e.preventDefault()
+	const handleCreate = async (event: Event) => {
+    event.preventDefault()
     await client.setName(name())
     const res = await client.createRoom()
     navigate("/app/game")
@@ -34,8 +34,8 @@ export default function JoinRoom() {
             <input type="string" name="code" placeholder="Insert your room code" onInput={(ev) => setCode(ev.currentTarget.value)} />
           </label>
         </fieldset>
-        <input value="Join" type="submit" onClick={handleJoin} />
-        <input value="Create Room" type="submit" onClick={handleCreate} />
+        <button type="button" onClick={handleJoin}>Join</button>
+        <button type="button" onClick={handleCreate}>Create Room</button>
       </form>
       </div>
     </div>
