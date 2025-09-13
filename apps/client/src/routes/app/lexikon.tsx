@@ -1,5 +1,4 @@
 import { For } from "solid-js";
-import "@picocss/pico/css/pico.min.css";
 import "./css/lexikon.css"
 import { roles } from "shared";
 

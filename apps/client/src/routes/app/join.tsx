@@ -1,4 +1,3 @@
-import "@picocss/pico/css/pico.min.css";
 import { useNavigate } from "@solidjs/router";
 import { createSignal, JSX } from "solid-js";
 import { client } from "~/lib/chat";
@@ -15,9 +14,8 @@ export default function JoinRoom() {
     if (res.success) {
       navigate("/app/game")
     }
-
-
   }
+
 	const handleCreate: JSX.EventHandlerUnion<HTMLInputElement, MouseEvent, JSX.EventHandler<HTMLInputElement, MouseEvent>> = async (e) => {
     e.preventDefault()
     await client.setName(name())
