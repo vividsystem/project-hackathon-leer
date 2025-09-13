@@ -16,7 +16,7 @@ export default function PlayerList(props: { gm: boolean }) {
   return (
     <ul class="player-list">
       <For each={players()}>
-        {(player, id) => (
+        {(player) => (
           <li class="player-item">
             <span class="player-name">{player.name ?? "Anonymous"} </span>
 
@@ -27,9 +27,10 @@ export default function PlayerList(props: { gm: boolean }) {
             <Show when={player.id == client.getRoom()?.owner}> <Crown class="owner-crown" /></Show>
 
             <span
-              class={`player-status ${player.alive ? "alive" : "dead"}`}
+              class={"player-status"}
+							classList={{"alive": player.alive, "dead": !player.alive}}
             >
-              - {player.alive ? "Alive" : "Dead"}
+              {player.alive ? "Alive" : "Dead"}
             </span>
 
             <Show when={props.gm && player.alive}>
