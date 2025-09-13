@@ -1,5 +1,6 @@
+import { describe } from "node:test"
 import { type Role } from "."
-import { BowArrow, BowArrowIcon, Eye, EyeClosed, EyeIcon, Glasses, GlassesIcon, Heart, HeartIcon, Moon, MoonIcon, Sparkles, SparklesIcon, UserIcon } from "lucide-solid"
+import { Bed, BowArrow, BowArrowIcon, DraftingCompass, Eye, EyeClosed, EyeIcon, Glasses, GlassesIcon, Heart, HeartIcon, Moon, MoonIcon, Search, Sparkles, SparklesIcon, UserIcon, VenetianMask } from "lucide-solid"
 
 /*
   {
@@ -56,20 +57,40 @@ export const Seherin: Role = {
 	icon: GlassesIcon
 }
 //TODO
-export const Dieb = {
-
+export const Dieb: Role = {
+	name: "Dieb",
+	description:
+		"Tauscht zu Beginn des Spiels mit einem anderen Spieler die Karte.",
+	frequency: "once",
+	wolf: false,
+	icon: VenetianMask
 }
 //TODO
-export const Dorfmatratze = {
+export const Dorfmatratze: Role = {
+	name: "Dorfmatratze",
+	description:
+		"Die Dorfmatratze erwacht in der Nacht vor den Werwölfen und sucht sich einen Partner für die Nacht aus. Das Haus des Partners wird zu ihrem neuen Schlafplatz für die Nacht. Sollten die Werwölfe sie also bei sich zuhause töten wollen, ist sie nicht da. Doch töten die Werwölfe den Partner, so stirbt auch die Dorfmatratze.",
+	frequency: "every_night",
+	wolf: false,
+	icon: Bed
 
 }
-//TODO
-export const Freimaurer = {
-
+export const Freimaurer: Role = {
+  name: 'Freimaurer',
+  description:
+    'Alle Freimaurer kennen sich und wissen somit, dass sie sich vertrauen können.',
+  frequency: "once",
+  wolf: false,
+  icon: DraftingCompass
 }
 //TODO
-export const ParanormallerErmittler = {
-
+export const ParanormallerErmittler: Role = {
+	name: "Paranormaller Ermittler",
+	description: 
+		'Der Paranormalle Ermittler erwacht jede Nacht vor den Werwölfen und sucht sich jede Nacht eine Person aus. Er erfährt so, ob die ausgewählte Person oder einer seiner direkten Nachbarn böse ist.',
+	frequency: "every_night",
+	wolf: false,
+	icon: Search
 }
 export const Dorfbewohner: Role = {
 	name: 'Dorfbewohner',
@@ -86,5 +107,8 @@ export const All: Role[] = [
 	Amor,
 	Blinzelmaedchen,
 	Seherin,
+	Dorfmatratze, 
+	Freimaurer,
+	ParanormallerErmittler
 	Dorfbewohner
 ]
