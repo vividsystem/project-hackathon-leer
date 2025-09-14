@@ -34,8 +34,8 @@ export default function JoinRoom() {
             <input type="string" name="code" placeholder="Insert your room code" onInput={(ev) => setCode(ev.currentTarget.value)} />
           </label>
         </fieldset>
-        <button type="button" onClick={handleJoin}>Join</button>
-        <button type="button" onClick={handleCreate}>Create Room</button>
+        <button type="button" onClick={handleJoin} style={{"width": "100%"}}>Join</button>
+        <button type="button" onClick={handleCreate} style={{"width": "100%"}}>Create Room</button>
       </form>
       </div>
     </div>
