@@ -1,6 +1,6 @@
 import { createSignal, For, Component, createEffect } from "solid-js";
-import { client } from "~/lib/chat";
 import { ChatMessage } from "~/lib/chat";
+import { useGameClient } from "~/lib/context";
 
 type Message = {
   id: number;
@@ -11,6 +11,7 @@ type Message = {
 };
 
 const Chat: Component = () => {
+	const client = useGameClient()
   const [messages, setMessages] = createSignal<Message[]>([]);
   const [input, setInput] = createSignal("");
 

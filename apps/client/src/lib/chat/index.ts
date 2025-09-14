@@ -39,11 +39,11 @@ export class ChatClient {
   }
 
   async setName(name: string) {
-    const res = new Promise((resolve, reject) => {
-      this.socket.emit("set-name", name, (res: any) => {
+    const res = new Promise((resolve) => {
+      this.socket.emit("set-name", name, (res: {success: boolean, player: Player}) => {
         return resolve(res);
       });
-    }) as {success: boolean, player: Player}
+    }) as unknown as {success: boolean, player: Player}
 
 		this.player = res.player
 		return res
@@ -147,5 +147,3 @@ export class ChatClient {
 		return this.socket.id
 	}
 }
-
-export const client = new ChatClient("http://localhost:4000")
