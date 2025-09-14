@@ -3,15 +3,19 @@ import { Player } from "shared";
 import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 import "./css/PlayerList.css";
 import { useGameClient } from "~/lib/context";
+import { roles as rs } from "shared"
+import { createStore } from "solid-js/store";
 
 export default function PlayerList(props: { gm: boolean }) {
   const [players, setPlayers] = createSignal<Player[]>([])
+	const [roles, setRoles] = createStore<Record<string,string>>({})
 	const client = useGameClient()
 
   onMount(async () => {
-    setPlayers(await client!.getPlayers())
+    setPlayers(await client.getPlayers())
   })
-  client!.onPlayerChange((p) => setPlayers(p))
+  client.onPlayerChange((p) => setPlayers(p))
+	client.onRoleChange((r) => setRoles(r))
   createEffect(() => console.log(players()))
 
   return (
@@ -19,6 +23,10 @@ export default function PlayerList(props: { gm: boolean }) {
       <For each={players()}>
         {(player) => (
           <li class="player-item">
+						<Show when={props.gm && rs.All.some(obj => obj.name === roles[player.id])}>
+							{rs.All.find(obj => obj.name === roles[player.id])?.icon({})}
+						</Show>
+						
             <span class="player-name">{player.name ?? "Anonymous"} </span>
 
             <Show when={client!.getPlayer?.() && player.id === client!.getPlayer()!.id}>

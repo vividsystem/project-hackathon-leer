@@ -13,6 +13,7 @@ const io = new Server(4000, {
 //TODO: replace with database in the future maybe
 const rooms: Record<string, Room> = {};
 const players: Record<string, Player> = {};
+const roles: Record<string, Record<string, string>> = {};
 //client connects to server
 
 
@@ -141,6 +142,17 @@ io.on("connection", (socket) => {
 		io.to(id).emit("killed", {...player, alive: false})
     io.to(user.room).emit("player-list", roomPlayers(rooms[user.room]));
 
+	})
+
+
+	socket.on("set-role", (roleName: string) => {
+		const user = players[socket.id];
+		if(!user?.room) return;
+
+		const room = rooms[user.room]
+		roles[room.code][socket.id] = roleName
+
+		io.to(room.owner).emit("role-update", roles[room.code])
 	})
 	
 
