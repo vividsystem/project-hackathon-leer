@@ -11,7 +11,7 @@ export default function Home() {
           {(role) => (
             <>
               <article
-                class="card p-3">
+                class="card p-3" style={{"background-color": role.wolf ? "#ff3333" : "var(--pico-background"}}>
                 <h3 style={{"vertical-align": "middle", "align-items": "center", "display": "flex"}}>
                   <div style={{"margin-right": "0.5rem"}}>
                   <role.icon/>

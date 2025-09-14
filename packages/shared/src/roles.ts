@@ -109,6 +109,6 @@ export const All: Role[] = [
 	Seherin,
 	Dorfmatratze, 
 	Freimaurer,
-	ParanormallerErmittler
+	ParanormallerErmittler,
 	Dorfbewohner
 ]
