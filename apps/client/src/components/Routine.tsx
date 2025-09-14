@@ -1,5 +1,6 @@
 import { Role, roles } from "shared"
 import { For, Show } from "solid-js"
+import { useGameClient } from "~/lib/context"
 import { useSessionSignal } from "~/lib/storage/persistent"
 
 const defaultGame: Role[] = [
@@ -11,6 +12,7 @@ const defaultGame: Role[] = [
 ]
 
 export default function Routine() {
+	const client = useGameClient()
 	const [routine, setRoutine] = useSessionSignal<Role[]>("routine", defaultGame)
 	const deleteFromRoutine = (name: string) => {
 		setRoutine((prev) => prev.filter((val) => val.name !== name))

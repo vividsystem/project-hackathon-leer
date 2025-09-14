@@ -1,4 +1,5 @@
-# Task
+# Lupus
+## Task
 Entwickelt eine App oder WebApp, die ein analoges Spiel digital unterstützt! Ob Dart, Magic: The Gathering, MauMau oder ein anderes Spiel eurer Wahl – eure Anwendung soll dabei helfen, relevante Informationen zu erfassen, zu speichern und auszuwerten. Beispiele:
 Beim Dart: Punkte automatisch berechnen und anzeigen.
 Bei Magic: The Gathering: Lebenspunkte und Spielverlauf dokumentieren.

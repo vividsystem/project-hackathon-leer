@@ -11,11 +11,13 @@ export type ChatMessage = {
 
 type MessageHandler = (msg: ChatMessage) => void;
 type PlayerHandler = (players: Player[]) => void;
+type RoleHandler = (roles: Record<string, string>) => void;
 
 export class ChatClient {
   private socket: Socket;
   private messageHandlers: MessageHandler[] = [];
   private playerHandlers: PlayerHandler[] = [];
+	private roleHandlers: RoleHandler[] = []
 	private player?: Player;
 	private room?: Room
 
@@ -35,6 +37,10 @@ export class ChatClient {
 
 		this.socket.on("player-list", (res: Player[]) => {
 			this.playerHandlers.forEach((h) => h(res))
+		})
+
+		this.socket.on("role-update", (res: Record<string, string>) => {
+			this.roleHandlers.forEach((h) => h(res))
 		})
   }
 
@@ -106,6 +112,10 @@ export class ChatClient {
 
 	onPlayerChange(handler: PlayerHandler) {
 		this.playerHandlers.push(handler)
+	}
+
+	onRoleChange(handler: RoleHandler) {
+		this.roleHandlers.push(handler)
 	}
 
   disconnect(): void {
