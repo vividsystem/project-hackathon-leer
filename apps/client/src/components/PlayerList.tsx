@@ -30,9 +30,24 @@ export default function PlayerList(props: { gm: boolean }) {
             <span class="player-name">{player.name ?? "Anonymous"} </span>
 
             <Show when={client!.getPlayer?.() && player.id === client!.getPlayer()!.id}>
+              <Show when={!props.gm}>
+              <select
+                value={roles[player.id] ?? ""}
+                onChange={(e) => {
+                  const newRole = e.currentTarget.value;
+                  setRoles(player.id, newRole); 
+                }}
+                style = {{"width": "30%", "margin-top": "1rem", "height": "50%" }}
+              >
+                <For each={rs.All}>
+                  {(roleObj) => (
+                    <option value={roleObj.name}>{roleObj.name}</option>
+                  )}
+                </For>
+              </select>
+              </Show>
               <span class="you-label">(you)</span>
             </Show>
-
             <Show when={player.id == client!.getRoom()?.owner}> <Crown class="owner-crown" /></Show>
 
             <span
