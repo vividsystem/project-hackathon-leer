@@ -1,8 +1,9 @@
 import { useNavigate } from "@solidjs/router";
 import { createSignal, JSX } from "solid-js";
-import { client } from "~/lib/chat";
+import { useGameClient } from "~/lib/context";
 
 export default function JoinRoom() {
+	const client = useGameClient()
   const [code, setCode] = createSignal("")
   const [name, setName] = createSignal("")
   const navigate = useNavigate()
@@ -18,8 +19,11 @@ export default function JoinRoom() {
 
 	const handleCreate = async (event: Event) => {
     event.preventDefault()
+		console.log("reacting")
     await client.setName(name())
+		console.log("reacting 2")
     const res = await client.createRoom()
+		console.log("reacting 3")
     navigate("/app/game")
   }
   return (

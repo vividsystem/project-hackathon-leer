@@ -1,13 +1,6 @@
-import { describe } from "node:test"
 import { type Role } from "."
-import { Bed, BowArrow, BowArrowIcon, DraftingCompass, Eye, EyeClosed, EyeIcon, Glasses, GlassesIcon, Heart, HeartIcon, Moon, MoonIcon, Search, Sparkles, SparklesIcon, UserIcon, VenetianMask } from "lucide-solid"
+import { Bed, BowArrowIcon, DraftingCompass, EyeIcon, GlassesIcon, HeartIcon, MoonIcon, Search, SparklesIcon, UserIcon, VenetianMask } from "lucide-solid"
 
-/*
-  {
-  name: 'Erzähler (Spielleiter, spielt nicht mit!)',
-  description:
-    'Leitet durch die Phasen des Spiels, verteilt die Karten und erzählt die Geschichte. Wird vor Spielbeginn durch die Mitspieler bestimmt.',
-	*/
 export const Werwolf: Role = {
   name: 'Werwolf',
   description:
